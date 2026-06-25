@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # install.sh — Scaffold claude-multi-roles into a new project
-# Usage: curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/5kr8zfb4yd-eng/claude-multi-roles/main/install.sh | bash
 # Or: bash install.sh
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main"
+REPO_URL="https://raw.githubusercontent.com/5kr8zfb4yd-eng/claude-multi-roles/main"
 TARGET="${1:-.}"  # target directory, default: current folder
 
 echo "═══════════════════════════════════════════════════"

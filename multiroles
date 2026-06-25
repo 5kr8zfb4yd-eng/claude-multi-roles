@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ═══ claude-multi-roles — Role selector with dynamic MCP ═══
 # Usage: ./multiroles
-# Repo: github.com/GiuseppeFarruggia/claude-multi-roles
+# Repo: github.com/5kr8zfb4yd-eng/claude-multi-roles
 set -e
 cd "$(dirname "$0")"
 

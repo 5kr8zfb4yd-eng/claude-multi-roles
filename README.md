@@ -200,7 +200,7 @@ printf 'SUPABASE_ACCESS_TOKEN="sbp_..."\nSUPABASE_PROJECT_REF="your-ref"\n' >> .
 ### Option A — One-liner
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/5kr8zfb4yd-eng/claude-multi-roles/main/install.sh | bash
 ```
 
 Scaffolds the full `.claude/` structure, the launcher, and the hooks into the current directory.
@@ -208,7 +208,7 @@ Scaffolds the full `.claude/` structure, the launcher, and the hooks into the cu
 ### Option B — Clone
 
 ```bash
-git clone https://github.com/GiuseppeFarruggia/claude-multi-roles.git
+git clone https://github.com/5kr8zfb4yd-eng/claude-multi-roles.git
 cd claude-multi-roles
 cp .claude/.env.mcp.example .claude/.env.mcp   # then fill in your credentials
 chmod +x multiroles
@@ -223,7 +223,7 @@ Run the installer pointed at your existing repository — it only adds `claude-m
 # from anywhere, install into an existing project directory
 bash install.sh /path/to/your-existing-project
 # or one-liner with an explicit target
-curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash -s -- /path/to/your-existing-project
+curl -fsSL https://raw.githubusercontent.com/5kr8zfb4yd-eng/claude-multi-roles/main/install.sh | bash -s -- /path/to/your-existing-project
 ```
 
 Then fill `.claude/.env.mcp`, complete the **PROJECT IDENTITY** section of `CLAUDE.md`, and run `./multiroles`.
