@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ═══ claude-roles — Selettore ruolo con MCP dinamico ═══
-# Uso: ./os
-# Repo: github.com/YOUR_USERNAME/claude-roles
+# ═══ claude-multi-roles — Selettore ruolo con MCP dinamico ═══
+# Uso: ./multiroles
+# Repo: github.com/GiuseppeFarruggia/claude-multi-roles
 set -e
 cd "$(dirname "$0")"
 
@@ -26,7 +26,7 @@ MCP_CONFIGS=(
 )
 
 echo "═══════════════════════════════════════════════════════════"
-echo "  claude-roles — Seleziona il ruolo della sessione"
+echo "  claude-multi-roles — Seleziona il ruolo della sessione"
 echo "═══════════════════════════════════════════════════════════"
 PS3="Ruolo > "
 select R in "${ROLES[@]}"; do

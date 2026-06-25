@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# install.sh — Scaffolding claude-roles in un nuovo progetto
-# Uso: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/claude-roles/main/install.sh | bash
+# install.sh — Scaffolding claude-multi-roles in un nuovo progetto
+# Uso: curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash
 # Oppure: bash install.sh
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/YOUR_USERNAME/claude-roles/main"
+REPO_URL="https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main"
 TARGET="${1:-.}"  # directory target, default: cartella corrente
 
 echo "═══════════════════════════════════════════════════"
-echo "  claude-roles — Installazione"
+echo "  claude-multi-roles — Installazione"
 echo "  Target: $TARGET"
 echo "═══════════════════════════════════════════════════"
 
@@ -25,7 +25,7 @@ echo "✅ Struttura cartelle creata"
 # Scarica file da GitHub
 for file in \
   "CLAUDE.md" \
-  "os" \
+  "multiroles" \
   ".gitignore" \
   ".claude/settings.json" \
   ".claude/hooks/safety-check.sh" \
@@ -56,17 +56,17 @@ for role in 1-product 2-uiux 3-swe 4-security 5-growth; do
 done
 
 # Rendi eseguibili
-chmod +x "$TARGET/os"
+chmod +x "$TARGET/multiroles"
 chmod +x "$TARGET/.claude/hooks/"*.sh
 
 # Copia .env.mcp.example
 cp "$TARGET/.claude/.env.mcp.example" "$TARGET/.claude/.env.mcp"
 
 echo ""
-echo "✅ claude-roles installato in: $TARGET"
+echo "✅ claude-multi-roles installato in: $TARGET"
 echo ""
 echo "Prossimi passi:"
 echo "  1. Riempi .claude/.env.mcp con le tue credenziali MCP"
 echo "  2. Compila la sezione IDENTITÀ DEL PROGETTO in CLAUDE.md"
-echo "  3. cd $TARGET && ./os"
+echo "  3. cd $TARGET && ./multiroles"
 echo "     → scegli 1-Product Manager per la prima sessione"

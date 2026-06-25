@@ -1,5 +1,5 @@
-# CLAUDE.md — claude-roles
-# Multi-role orchestration · Dynamic MCP per session · Async inter-role communication
+# claude-multi-roles — Multi-role Claude Code Orchestration Framework
+# Dynamic MCP per session · Async inter-role communication · Deterministic safety backstop
 
 ---
 
@@ -17,19 +17,31 @@ Non fare altro finché non ricevi risposta.
 5. Growth Marketer    — acquisizione, retention, analytics, social
 ```
 
-Modo preferito: `./os` dal terminale (imposta il ruolo e lancia Claude).
+Modo preferito: `./multiroles` dal terminale (imposta il ruolo e lancia Claude).
 Fallback: `claude` nudo → Regola Zero si attiva automaticamente.
 
 ---
 
 ## IDENTITÀ DEL PROGETTO
 
-> Questa sezione va compilata dal team nella prima sessione PM.
+> ⚙️  TEMPLATE — Compila questa sezione nella prima sessione PM (ruolo 1).
+> Sostituisci ogni placeholder `<...>` con i valori reali del tuo progetto.
+> Finché resta compilata coi placeholder, il framework è in stato "non configurato".
 
-**Prodotto:**
-**Stack:**
-**Stato attuale:**
-**Obiettivo a 30 giorni:**
+**Prodotto:**            <una riga: cosa stai costruendo e per chi>
+**Stack:**               <es. Next.js + Supabase + TypeScript>
+**Stato attuale:**       <es. MVP con dati mock, nessun backend ancora>
+**Obiettivo a 30 giorni:** <un risultato misurabile, es. "primi 50 utenti reali">
+
+<!--
+Esempio compilato (da rimuovere quando inserisci i tuoi valori):
+**Prodotto:** Marketplace per artigiani locali — app web mobile-first.
+**Stack:** Next.js 15 + Supabase + TypeScript + Tailwind.
+**Stato attuale:** Frontend con dati mock, in attesa di backend reale.
+**Obiettivo a 30 giorni:** Sostituire i mock con Supabase e onboardare 20 artigiani.
+-->
+
+
 
 ---
 
