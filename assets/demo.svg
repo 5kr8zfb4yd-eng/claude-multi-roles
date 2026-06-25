@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 486">
+<style>text{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,monospace;font-size:15px;opacity:0}@keyframes l1{0%,0.92%{opacity:0}3.08%,100%{opacity:1}}@keyframes l2{0%,6.31%{opacity:0}8.46%,100%{opacity:1}}@keyframes l3{0%,11.69%{opacity:0}13.85%,100%{opacity:1}}@keyframes l4{0%,18.62%{opacity:0}20.77%,100%{opacity:1}}@keyframes l5{0%,24.00%{opacity:0}26.15%,100%{opacity:1}}@keyframes l6{0%,27.08%{opacity:0}29.23%,100%{opacity:1}}@keyframes l7{0%,32.46%{opacity:0}34.62%,100%{opacity:1}}@keyframes l8{0%,39.38%{opacity:0}41.54%,100%{opacity:1}}@keyframes l9{0%,46.31%{opacity:0}48.46%,100%{opacity:1}}@keyframes l10{0%,53.23%{opacity:0}55.38%,100%{opacity:1}}@keyframes l11{0%,58.62%{opacity:0}60.77%,100%{opacity:1}}@keyframes l12{0%,67.08%{opacity:0}69.23%,100%{opacity:1}}@keyframes l13{0%,73.23%{opacity:0}75.38%,100%{opacity:1}}@keyframes l14{0%,79.38%{opacity:0}81.54%,100%{opacity:1}}@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}.cur{animation:blink 1s steps(1) infinite}</style>
+<rect x="6" y="6" width="768" height="474" rx="14" fill="#0d1117" stroke="#222b36" stroke-width="1.5"/>
+<rect x="6" y="6" width="768" height="40" rx="14" fill="#161b22"/>
+<rect x="6" y="32" width="768" height="14" fill="#161b22"/>
+<circle cx="32" cy="26" r="6" fill="#ff5f56"/>
+<circle cx="52" cy="26" r="6" fill="#ffbd2e"/>
+<circle cx="72" cy="26" r="6" fill="#27c93f"/>
+<text x="390.0" y="31" fill="#7d8590" text-anchor="middle" style="opacity:1;font-size:13px">claude-multi-roles — async role session</text>
+<text x="26" y="92" fill="#e6edf3" style="animation:l1 13.0s infinite"><tspan fill="#3fb950">$</tspan> ./multiroles</text>
+<text x="26" y="117" fill="#7d8590" style="animation:l2 13.0s infinite">  claude-multi-roles — select the session role</text>
+<text x="26" y="142" fill="#7d8590" style="animation:l3 13.0s infinite">  1) Product  2) UI/UX  3) SWE  4) Security  5) Growth</text>
+<text x="26" y="167" fill="#e6edf3" style="animation:l4 13.0s infinite">Role ▸ 2</text>
+<text x="26" y="192" fill="#D97757" style="animation:l5 13.0s infinite">◆ Active role:    2-UI/UX Developer</text>
+<text x="26" y="217" fill="#D97757" style="animation:l6 13.0s infinite">◆ MCP connectors: none</text>
+<text x="26" y="242" fill="#D97757" style="animation:l7 13.0s infinite">▶ reading  ROLE.md → MEMORY.md → STATE → BUS</text>
+<text x="26" y="267" fill="#9aa4af" style="animation:l8 13.0s infinite">  ✎ built ProductCard + ProductGrid on mock-data.ts</text>
+<text x="26" y="292" fill="#3fb950" style="animation:l9 13.0s infinite">  ⟳ Stop hook → quality gate 8/10  ✓</text>
+<text x="26" y="317" fill="#D97757" style="animation:l10 13.0s infinite">  ✉ BUS.md ◂ [UIUX] shape {id,title,price,imageUrl}</text>
+<text x="26" y="342" fill="#D97757" style="animation:l11 13.0s infinite">            NEEDS: SWE → data.ts, Supabase-backed</text>
+<text x="26" y="392" fill="#e6edf3" style="animation:l12 13.0s infinite"><tspan fill="#3fb950">$</tspan> ./multiroles            #  next session</text>
+<text x="26" y="417" fill="#e6edf3" style="animation:l13 13.0s infinite">Role ▸ 3     →  MCP: supabase</text>
+<text x="26" y="442" fill="#3fb950" style="animation:l14 13.0s infinite">▶ SWE reads BUS → already knows the contract  ✓</text>
+<rect class="cur" x="26" y="454" width="9" height="17" fill="#D97757"/>
+</svg>

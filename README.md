@@ -2,13 +2,13 @@
 
 # claude-multi-roles
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Claude Code](https://img.shields.io/badge/Claude%20Code-orchestration-D97757.svg)](https://docs.anthropic.com/en/docs/claude-code) [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933.svg)](https://nodejs.org) [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](#)
+[![CI](https://github.com/5kr8zfb4yd-eng/claude-multi-roles/actions/workflows/ci.yml/badge.svg)](https://github.com/5kr8zfb4yd-eng/claude-multi-roles/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Claude Code](https://img.shields.io/badge/Claude%20Code-orchestration-D97757.svg)](https://docs.anthropic.com/en/docs/claude-code) [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933.svg)](https://nodejs.org) [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](#)
 
 ### One Claude Code project. Five focused roles. One async memory bus.
 
 **A multi-role Claude Code orchestration framework with per-session dynamic MCP scoping and async inter-role communication.**
 
-<img src="assets/roles-bus.svg" alt="Five orange Claude roles — Product, UI/UX, SWE, Security, Growth — exchanging messages over a shared BUS.md" width="100%">
+<img src="assets/demo.svg" alt="Animated terminal — a UI/UX session builds against mock data and hands off to SWE through BUS.md" width="100%">
 
 </div>
 
@@ -16,21 +16,6 @@
 > This repository is a **worked example, not a rigid product.** It's the 5-role setup I built to run an entire full-stack platform for a **~100k-follower Instagram page** — end to end, inside Claude Code, on a single **Pro** subscription. That project needed very different tools at different moments: a **Vercel / frontend** MCP while shipping UI, the **Meta / Instagram API** while analyzing growth, **Supabase** for data and security. Loading them all into every session was wasteful (token bloat) and noisy. So each role boots with **only** the MCP servers it actually needs, and hands work to the next role through a written log instead of a shared brain.
 >
 > **The five roles below are an example.** Keep them, reshape them, add a sixth, or wire in completely different MCP servers — the machinery (dynamic MCP scoping + the BUS pattern + the safety backstop) is what's reusable. See [Customization](#customization).
-
-```
- ═══════════════════════════════════════════════════════════
-   claude-multi-roles — select the session role
- ═══════════════════════════════════════════════════════════
-   1) Product Manager      4) Security Engineer
-   2) UI/UX Developer      5) Growth Marketer
-   3) SWE
- Role > 2
-
- ◆ Active role:    2-UI/UX Developer
- ◆ MCP connectors: none
-
- ▶ Launching Claude Code…  reading  ROLE.md → MEMORY.md → STATE → BUS
-```
 
 ---
 
@@ -123,6 +108,10 @@
 
 ## The BUS.md Pattern
 
+<div align="center">
+<img src="assets/roles-bus.svg" alt="Five orange Claude roles exchanging messages over a shared, append-only BUS.md" width="92%">
+</div>
+
 Roles coordinate through **asynchronous broadcasts**, not shared mutable state.
 
 - **Each role writes only its own `MEMORY.md`.** Private reasoning stays private. No role reads another role's memory (the PM is the only exception, and only when needed).
@@ -143,7 +132,9 @@ Roles coordinate through **asynchronous broadcasts**, not shared mutable state.
 
   Next session, the SWE role opens `BUS.md`, reads that line, and already knows exactly what to build and against which contract — no meeting, no re-explanation.
 
-**Why this beats concurrent Agent Teams for a solo founder.** Parallel agent swarms shine when you have throughput to parallelize and people to supervise them. A solo founder has neither — what they need is *continuity* and *low cognitive load*. One role at a time, each with a clean scope and a written handoff, means you can stop mid-week, come back, run `./multiroles`, pick the next role, and the BUS tells you precisely where the baton was dropped. It's a relay, not a scrum — cheaper in tokens, easier to audit, and impossible to deadlock.
+**Why this instead of native subagents / Agent Teams?** Claude Code's built-in subagents are *ephemeral* and *intra-session*: they spin up inside one orchestrator's context, share its window, and vanish when the task ends. That's perfect for parallel fan-out on a single task. This framework optimizes for the opposite axis — **persistence across days and sessions**. Each role has its own durable, private `MEMORY.md` that outlives any session, the MCP surface is scoped per role (not shared), and the only common channel is an append-only log you can read like a changelog.
+
+For a **solo founder** that trade is the whole point: you don't need throughput you can't supervise, you need *continuity* and *low cognitive load*. One role at a time, each with a clean scope and a written handoff — stop mid-week, come back, run `./multiroles`, pick the next role, and the BUS tells you exactly where the baton was dropped. It's a relay, not a scrum: cheaper in tokens, easy to audit, impossible to deadlock.
 
 ---
 

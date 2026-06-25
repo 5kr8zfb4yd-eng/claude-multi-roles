@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shell syntax (bash -n)
+        run: |
+          for f in multiroles install.sh .claude/hooks/*.sh; do
+            echo "checking $f"
+            bash -n "$f"
+          done
+
+      - name: Validate MCP config JSON
+        run: |
+          for f in .claude/mcp-configs/*.json; do
+            echo "checking $f"
+            python3 -m json.tool "$f" > /dev/null
+          done
+
+      - name: Validate SVG assets are well-formed XML
+        run: |
+          for f in assets/*.svg; do
+            echo "checking $f"
+            python3 -c "import sys,xml.dom.minidom as m; m.parse(sys.argv[1])" "$f"
+          done
+
+      - name: Safety hook blocks irreversible commands
+        run: |
+          hook=.claude/hooks/safety-check.sh
+          rmcmd="rm -""rf /"
+          if printf '%s' "$rmcmd" | bash "$hook"; then
+            echo "::error::safety-check did not block a recursive force rm"; exit 1
+          else
+            echo "ok: recursive force rm is blocked"
+          fi
