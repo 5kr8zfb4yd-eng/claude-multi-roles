@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "instagram": {
+      "command": "npx",
+      "args": ["-y", "@mikusnuz/meta-mcp"],
+      "env": {
+        "INSTAGRAM_ACCESS_TOKEN": "${INSTAGRAM_ACCESS_TOKEN}",
+        "INSTAGRAM_USER_ID": "${INSTAGRAM_USER_ID}"
+      }
+    }
+  }
+}

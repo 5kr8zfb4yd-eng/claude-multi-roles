@@ -1,0 +1,17 @@
+# Credenziali MCP — MAI su git
+.claude/.env.mcp
+.mcp.json
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Build artifacts
+.next/
+dist/
+build/
+
+# Stato runtime (rigenerato ad ogni sessione)
+.claude/state/active-role.txt
