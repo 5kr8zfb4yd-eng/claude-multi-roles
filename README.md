@@ -1,23 +1,43 @@
+<div align="center">
+
 # claude-multi-roles
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Claude Code](https://img.shields.io/badge/Claude%20Code-orchestration-8A2BE2.svg)](https://docs.anthropic.com/en/docs/claude-code) [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933.svg)](https://nodejs.org) [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](#)
 
-> **A multi-role Claude Code orchestration framework with per-session dynamic MCP scoping and async inter-role communication.**
+**A multi-role Claude Code orchestration framework with per-session dynamic MCP scoping and async inter-role communication.**
+
+</div>
 
 ```
-═══════════════════════════════════════════════════════════
-  claude-multi-roles — Seleziona il ruolo della sessione
-═══════════════════════════════════════════════════════════
-  1) 1-Product Manager      4) 4-Security Engineer
-  2) 2-UI/UX Developer      5) 5-Growth Marketer
-  3) 3-SWE
-Ruolo > 2
+ ═══════════════════════════════════════════════════════════
+   claude-multi-roles — select the session role
+ ═══════════════════════════════════════════════════════════
+   1) Product Manager      4) Security Engineer
+   2) UI/UX Developer      5) Growth Marketer
+   3) SWE
+ Role > 2
 
-◆ Ruolo attivo:      2-UI/UX Developer
-◆ MCP connettori:    nessuno
+ ◆ Active role:    2-UI/UX Developer
+ ◆ MCP connectors: none
 
-▶ Launching Claude Code…  (reading ROLE.md → MEMORY.md → STATE → BUS)
+ ▶ Launching Claude Code…  reading  ROLE.md → MEMORY.md → STATE → BUS
 ```
+
+---
+
+## Contents
+
+1. [The Problem It Solves](#the-problem-it-solves)
+2. [How It Works](#how-it-works)
+3. [The 5 Roles](#the-5-roles)
+4. [The BUS.md Pattern](#the-busmd-pattern)
+5. [Dynamic MCP Scoping](#dynamic-mcp-scoping)
+6. [Prerequisites](#prerequisites)
+7. [Installation](#installation)
+8. [First Session — End to End](#first-session--end-to-end-example)
+9. [Safety](#safety)
+10. [Customization](#customization)
+11. [Contributing](#contributing) · [License](#license)
 
 ---
 
@@ -209,10 +229,10 @@ A UI/UX session that hands off cleanly to SWE.
 
 ```bash
 ./multiroles
-# Ruolo > 2
+# Role > 2
 
-◆ Ruolo attivo:      2-UI/UX Developer
-◆ MCP connettori:    nessuno
+◆ Active role:    2-UI/UX Developer
+◆ MCP connectors: none
 ```
 
 **2. Claude bootstraps from memory** — it reads `ROLE.md` (scope), `MEMORY.md` (its private notes), `shared/STATE.md`, `shared/DECISIONS.md`, and the last 20 `BUS.md` events. On a fresh repo these are empty, so it waits for your prompt.
@@ -237,7 +257,7 @@ A UI/UX session that hands off cleanly to SWE.
 
 ```bash
 ./multiroles
-# Ruolo > 3   →   MCP: supabase
+# Role > 3   →   MCP: supabase
 ```
 
 SWE opens `BUS.md`, reads the UIUX broadcast, and **already knows the contract**: implement `lib/data.ts` with the exact `{ id, title, price, imageUrl }` signature backed by Supabase — no UI rewrites, no re-briefing. The baton was handed off in writing.
