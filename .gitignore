@@ -1,4 +1,4 @@
-# Credenziali MCP — MAI su git
+# MCP credentials — NEVER commit to git
 .claude/.env.mcp
 .mcp.json
 
@@ -13,5 +13,6 @@ node_modules/
 dist/
 build/
 
-# Stato runtime (rigenerato ad ogni sessione)
+# Runtime state (regenerated every session)
 .claude/state/active-role.txt
+.claude/state/session-log.txt
