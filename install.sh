@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
-# install.sh — Scaffolding claude-multi-roles in un nuovo progetto
-# Uso: curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash
-# Oppure: bash install.sh
+# install.sh — Scaffold claude-multi-roles into a new project
+# Usage: curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash
+# Or: bash install.sh
 
 set -e
 
 REPO_URL="https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main"
-TARGET="${1:-.}"  # directory target, default: cartella corrente
+TARGET="${1:-.}"  # target directory, default: current folder
 
 echo "═══════════════════════════════════════════════════"
-echo "  claude-multi-roles — Installazione"
+echo "  claude-multi-roles — Installation"
 echo "  Target: $TARGET"
 echo "═══════════════════════════════════════════════════"
 
-# Crea struttura
+# Create the directory structure
 mkdir -p "$TARGET/.claude/"{hooks,shared,state,assets/{logos,brand,refs,svg},mcp-configs}
 for role in 1-product 2-uiux 3-swe 4-security 5-growth; do
   mkdir -p "$TARGET/.claude/roles/$role"
 done
 mkdir -p "$TARGET/docs"
 
-echo "✅ Struttura cartelle creata"
+echo "✅ Directory structure created"
 
-# Scarica file da GitHub
+# Download files from GitHub
 for file in \
   "CLAUDE.md" \
   "multiroles" \
@@ -49,24 +49,24 @@ for file in \
   curl -fsSL "$REPO_URL/$file" -o "$TARGET/$file"
 done
 
-# Inizializza MEMORY.md vuoti
+# Initialize empty MEMORY.md files
 for role in 1-product 2-uiux 3-swe 4-security 5-growth; do
   echo "# MEMORY — $role" > "$TARGET/.claude/roles/$role/MEMORY.md"
-  echo "Memoria privata. Solo questo ruolo scrive qui." >> "$TARGET/.claude/roles/$role/MEMORY.md"
+  echo "Private memory. Only this role writes here." >> "$TARGET/.claude/roles/$role/MEMORY.md"
 done
 
-# Rendi eseguibili
+# Make scripts executable
 chmod +x "$TARGET/multiroles"
 chmod +x "$TARGET/.claude/hooks/"*.sh
 
-# Copia .env.mcp.example
+# Copy .env.mcp.example
 cp "$TARGET/.claude/.env.mcp.example" "$TARGET/.claude/.env.mcp"
 
 echo ""
-echo "✅ claude-multi-roles installato in: $TARGET"
+echo "✅ claude-multi-roles installed in: $TARGET"
 echo ""
-echo "Prossimi passi:"
-echo "  1. Riempi .claude/.env.mcp con le tue credenziali MCP"
-echo "  2. Compila la sezione IDENTITÀ DEL PROGETTO in CLAUDE.md"
+echo "Next steps:"
+echo "  1. Fill .claude/.env.mcp with your MCP credentials"
+echo "  2. Complete the PROJECT IDENTITY section in CLAUDE.md"
 echo "  3. cd $TARGET && ./multiroles"
-echo "     → scegli 1-Product Manager per la prima sessione"
+echo "     → choose 1-Product Manager for the first session"

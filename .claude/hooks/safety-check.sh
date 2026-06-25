@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Backstop deterministico — blocca operazioni irreversibili
-# Attivo anche con --dangerously-skip-permissions
+# Deterministic backstop — blocks irreversible operations
+# Active even with --dangerously-skip-permissions
 INPUT="$(cat)"
-block() { echo "🛑 safety-check: $1 — bloccato. Serve conferma manuale." >&2; exit 2; }
+block() { echo "🛑 safety-check: $1 — blocked. Manual confirmation required." >&2; exit 2; }
 
 echo "$INPUT" | grep -Eqi 'rm[[:space:]]+-[a-z]*r[a-z]*f|rm[[:space:]]+-[a-z]*f[a-z]*r' \
-  && block "rm ricorsivo forzato"
+  && block "recursive force rm"
 echo "$INPUT" | grep -Eqi 'DROP[[:space:]]+(TABLE|DATABASE|SCHEMA)|TRUNCATE' \
-  && block "DROP/TRUNCATE su database"
+  && block "DROP/TRUNCATE on database"
 echo "$INPUT" | grep -Eqi 'git[[:space:]]+push.*(--force|-f)([[:space:]]|$)' \
-  && block "git push forzato"
+  && block "force git push"
 echo "$INPUT" | grep -Eqi 'git[[:space:]]+push.*(main|master)' \
-  && block "push su main/master = deploy produzione"
+  && block "push to main/master = production deploy"
 exit 0

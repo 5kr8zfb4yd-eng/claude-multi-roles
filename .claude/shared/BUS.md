@@ -1,6 +1,6 @@
-# BUS.md — Event Bus condiviso tra tutti i ruoli
-# APPEND-ONLY. Non modificare righe esistenti.
-# Formato: [YYYY-MM-DD | RUOLO] {cosa è cambiato}. RICHIEDE: {ruolo} → {azione}
+# BUS.md — Event bus shared by all roles
+# APPEND-ONLY. Don't modify existing lines.
+# Format: [YYYY-MM-DD | ROLE] {what changed}. NEEDS: {role} → {action}
 
 ---
 ## LOG

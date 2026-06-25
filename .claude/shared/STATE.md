@@ -1,8 +1,8 @@
-# STATE.md — Stato corrente del progetto
-# Aggiornato ogni fine sessione dal ruolo attivo.
+# STATE.md — Current project state
+# Updated at the end of every session by the active role.
 
-DATA_ULTIMO_AGGIORNAMENTO: 
-RUOLO_ULTIMO_AGGIORNAMENTO:
+LAST_UPDATE_DATE:
+LAST_UPDATE_ROLE:
 
 ## UI / Frontend
 
@@ -10,8 +10,8 @@ RUOLO_ULTIMO_AGGIORNAMENTO:
 
 ## Auth
 
-## Integrazioni esterne
+## External integrations
 
 ## KNOWN_ISSUES
 
-## Condizione di passaggio (se applicabile)
+## Handoff condition (if applicable)

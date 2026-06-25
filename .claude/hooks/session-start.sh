@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Verifica che un ruolo sia stato selezionato prima di lavorare
+# Check that a role was selected before any work begins
 if [ ! -s .claude/state/active-role.txt ]; then
-  echo "⚠️  NESSUN RUOLO ATTIVO."
-  echo "Prima azione obbligatoria: presenta i 5 ruoli e chiedi quale attivare."
-  echo "Non procedere senza risposta."
+  echo "⚠️  NO ACTIVE ROLE."
+  echo "Mandatory first action: present the 5 roles and ask which one to activate."
+  echo "Do not proceed without an answer."
 fi

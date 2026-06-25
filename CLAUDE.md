@@ -3,108 +3,106 @@
 
 ---
 
-## REGOLA ZERO
+## RULE ZERO
 
-Se `.claude/state/active-role.txt` non esiste o è vuoto, la tua prima e unica
-azione è presentare i 5 ruoli come lista numerata e chiedere quale attivare.
-Non fare altro finché non ricevi risposta.
+If `.claude/state/active-role.txt` does not exist or is empty, your first and only
+action is to present the 5 roles as a numbered list and ask which one to activate.
+Do nothing else until you receive an answer.
 
 ```
-1. Product Manager    — il perché/cosa, roadmap, specifiche (NO codice)
-2. UI/UX Developer    — design, frontend, design system, asset di brand
-3. SWE                — backend, DB, API, integrazioni, sostituzione mock
-4. Security Engineer  — RLS, auth, OWASP, isolamento ruoli applicativi
-5. Growth Marketer    — acquisizione, retention, analytics, social
+1. Product Manager    — the why/what, roadmap, specs (NO code)
+2. UI/UX Developer    — design, frontend, design system, brand assets
+3. SWE                — backend, DB, API, integrations, mock replacement
+4. Security Engineer  — RLS, auth, OWASP, application-role isolation
+5. Growth Marketer    — acquisition, retention, analytics, social
 ```
 
-Modo preferito: `./multiroles` dal terminale (imposta il ruolo e lancia Claude).
-Fallback: `claude` nudo → Regola Zero si attiva automaticamente.
+Preferred mode: `./multiroles` from the terminal (sets the role and launches Claude).
+Fallback: bare `claude` → Rule Zero triggers automatically.
 
 ---
 
-## IDENTITÀ DEL PROGETTO
+## PROJECT IDENTITY
 
-> ⚙️  TEMPLATE — Compila questa sezione nella prima sessione PM (ruolo 1).
-> Sostituisci ogni placeholder `<...>` con i valori reali del tuo progetto.
-> Finché resta compilata coi placeholder, il framework è in stato "non configurato".
+> ⚙️  TEMPLATE — Fill this section in during the first PM session (role 1).
+> Replace every `<...>` placeholder with your project's real values.
+> While it still holds placeholders, the framework is in an "unconfigured" state.
 
-**Prodotto:**            <una riga: cosa stai costruendo e per chi>
-**Stack:**               <es. Next.js + Supabase + TypeScript>
-**Stato attuale:**       <es. MVP con dati mock, nessun backend ancora>
-**Obiettivo a 30 giorni:** <un risultato misurabile, es. "primi 50 utenti reali">
+**Product:**          <one line: what you're building and for whom>
+**Stack:**            <e.g. Next.js + Supabase + TypeScript>
+**Current state:**    <e.g. MVP with mock data, no backend yet>
+**30-day goal:**      <a measurable outcome, e.g. "first 50 real users">
 
 <!--
-Esempio compilato (da rimuovere quando inserisci i tuoi valori):
-**Prodotto:** Marketplace per artigiani locali — app web mobile-first.
+Worked example (remove when you insert your own values):
+**Product:** Marketplace for local artisans — mobile-first web app.
 **Stack:** Next.js 15 + Supabase + TypeScript + Tailwind.
-**Stato attuale:** Frontend con dati mock, in attesa di backend reale.
-**Obiettivo a 30 giorni:** Sostituire i mock con Supabase e onboardare 20 artigiani.
+**Current state:** Frontend on mock data, waiting for a real backend.
+**30-day goal:** Replace mocks with Supabase and onboard 20 artisans.
 -->
 
+---
 
+## SESSION PROTOCOL
+
+### On startup
+1. Read this CLAUDE.md.
+2. Read `.claude/roles/<role>/ROLE.md` → who you are and what you may do.
+3. Read `.claude/roles/<role>/MEMORY.md` → your private memory.
+4. Read `.claude/shared/STATE.md` → project state.
+5. Read `.claude/shared/DECISIONS.md` → architectural decisions in force.
+6. Read the last 20 events of `.claude/shared/BUS.md` → what the other roles did.
+7. If `.claude/commands/next-session-<role>.md` exists → run it.
+   Otherwise → wait for the human's prompt.
+
+### At session end (the Stop hook fires automatically)
+1. Quality gate → score 0-10 (rubric in its dedicated section).
+2. Update `.claude/roles/<role>/MEMORY.md` (only your own).
+3. If other roles are affected → write a broadcast to `.claude/shared/BUS.md`:
+   `[YYYY-MM-DD | ROLE] {what changed}. NEEDS: {role} → {action}`
+4. Update `.claude/shared/STATE.md`.
+5. If PM → update `.claude/shared/DECISIONS.md` for any new architectural decisions.
+6. Score ≥ 7 → write `.claude/commands/next-session-<role>.md`.
+   Score < 7 → write KNOWN_ISSUES, no next-session.
+7. Propose a commit: `chore(claude): [<role>] session [DATE] — {short title}`.
+
+### Memory invariants
+- Write ONLY your own MEMORY.md.
+- Read the others via BUS / STATE / DECISIONS (never their MEMORY directly).
+- PM is the only role allowed to read all MEMORY.md files when necessary.
 
 ---
 
-## PROTOCOLLO DI SESSIONE
+## QUALITY GATE (rubric 0-10, threshold ≥ 7)
 
-### All'avvio
-1. Leggi questo CLAUDE.md.
-2. Leggi `.claude/roles/<ruolo>/ROLE.md` → chi sei e cosa puoi fare.
-3. Leggi `.claude/roles/<ruolo>/MEMORY.md` → tua memoria privata.
-4. Leggi `.claude/shared/STATE.md` → stato del progetto.
-5. Leggi `.claude/shared/DECISIONS.md` → decisioni architetturali in vigore.
-6. Leggi ultimi 20 eventi `.claude/shared/BUS.md` → cosa hanno fatto gli altri ruoli.
-7. Se `.claude/commands/next-session-<ruolo>.md` esiste → eseguilo.
-   Altrimenti → attendi prompt dell'umano.
-
-### A fine sessione (hook Stop si attiva automaticamente)
-1. Quality gate → score 0-10 (rubric nella sezione dedicata).
-2. Aggiorna `.claude/roles/<ruolo>/MEMORY.md` (solo la tua).
-3. Se altri ruoli sono coinvolti → scrivi broadcast su `.claude/shared/BUS.md`:
-   `[YYYY-MM-DD | RUOLO] {cosa è cambiato}. RICHIEDE: {ruolo} → {azione}`
-4. Aggiorna `.claude/shared/STATE.md`.
-5. Se PM → aggiorna `.claude/shared/DECISIONS.md` per nuove decisioni arch.
-6. Score ≥ 7 → scrivi `.claude/commands/next-session-<ruolo>.md`.
-   Score < 7 → scrivi KNOWN_ISSUES, niente next-session.
-7. Proponi commit: `chore(claude): [<ruolo>] session [DATA] — {titolo breve}`.
-
-### Invarianti di memoria
-- Scrivi SOLO la tua MEMORY.md.
-- Leggi gli altri via BUS / STATE / DECISIONS (mai direttamente le loro MEMORY).
-- PM è l'unico autorizzato a leggere tutte le MEMORY.md quando necessario.
-
----
-
-## QUALITY GATE (rubric 0-10, soglia ≥ 7)
-
-| Criterio | Peso |
+| Criterion | Weight |
 |---|---|
-| Rispetta scope del ruolo (no invasioni) | 2 |
-| Rispetta le DECISIONS in vigore | 2 |
-| Build verde, TypeScript clean, zero any | 2 |
-| Sicurezza: no segreti esposti, accessi verificati | 2 |
-| Memoria / BUS / STATE aggiornati correttamente | 2 |
+| Stays within role scope (no invasions) | 2 |
+| Respects the DECISIONS in force | 2 |
+| Build green, TypeScript clean, zero `any` | 2 |
+| Security: no exposed secrets, accesses verified | 2 |
+| Memory / BUS / STATE updated correctly | 2 |
 
 ---
 
-## REGOLE ASSOLUTE
+## ABSOLUTE RULES
 
-1. **Un ruolo per sessione.** Nessun ruolo invade lo scope dell'altro.
-2. **Comunicazione via BUS.** Non leggere le MEMORY private degli altri.
-3. **STOP su schema DB, Auth, deploy.** Conferma umana obbligatoria.
-4. **L'AI non pubblica mai in autonomia** su canali esterni (social, email, store).
-5. **Score < 7 blocca l'avanzamento.** Meglio fermarsi che accumulare debito.
-6. **Il loop si chiude col commit.** Sessione incompleta finché non è committata.
+1. **One role per session.** No role invades another role's scope.
+2. **Communication via the BUS.** Don't read other roles' private MEMORY.
+3. **STOP on DB schema, Auth, deploy.** Human confirmation is mandatory.
+4. **The AI never publishes autonomously** to external channels (social, email, store).
+5. **Score < 7 blocks progress.** Better to stop than to accumulate debt.
+6. **The loop closes with the commit.** A session is incomplete until committed.
 
 ---
 
 ## CURRENT_STATE
-> Aggiornato ogni fine sessione.
+> Updated at the end of every session.
 
 ```
-DATA:
-FASE:
-RUOLO ATTIVO: nessuno
+DATE:
+PHASE:
+ACTIVE ROLE: none
 KNOWN_ISSUES:
 ```
 
@@ -112,5 +110,5 @@ KNOWN_ISSUES:
 > Append-only.
 
 ```
-[DATA] — Bootstrap iniziale.
+[DATE] — Initial bootstrap.
 ```

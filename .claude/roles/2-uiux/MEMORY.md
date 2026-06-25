@@ -1,15 +1,15 @@
-# MEMORY — [RUOLO]
-# Memoria privata. Solo questo ruolo scrive qui.
-# Gli altri ruoli leggono via shared/BUS.md, non direttamente.
+# MEMORY — [ROLE]
+# Private memory. Only this role writes here.
+# The other roles read via shared/BUS.md, never directly.
 
-## Sessioni completate
-(nessuna ancora)
+## Completed sessions
+(none yet)
 
-## Pattern appresi
-(nessuno ancora)
+## Patterns learned
+(none yet)
 
-## Decisioni tecniche prese
-(nessuna ancora)
+## Technical decisions made
+(none yet)
 
-## Known issues irrisolti
-(nessuno)
+## Unresolved known issues
+(none)

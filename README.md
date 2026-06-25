@@ -2,11 +2,20 @@
 
 # claude-multi-roles
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Claude Code](https://img.shields.io/badge/Claude%20Code-orchestration-8A2BE2.svg)](https://docs.anthropic.com/en/docs/claude-code) [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933.svg)](https://nodejs.org) [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Claude Code](https://img.shields.io/badge/Claude%20Code-orchestration-D97757.svg)](https://docs.anthropic.com/en/docs/claude-code) [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933.svg)](https://nodejs.org) [![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](#)
+
+### One Claude Code project. Five focused roles. One async memory bus.
 
 **A multi-role Claude Code orchestration framework with per-session dynamic MCP scoping and async inter-role communication.**
 
+<img src="assets/roles-bus.svg" alt="Five orange Claude roles — Product, UI/UX, SWE, Security, Growth — exchanging messages over a shared BUS.md" width="100%">
+
 </div>
+
+> ### 🟠 Why this exists
+> This repository is a **worked example, not a rigid product.** It's the 5-role setup I built to run an entire full-stack platform for a **~100k-follower Instagram page** — end to end, inside Claude Code, on a single **Pro** subscription. That project needed very different tools at different moments: a **Vercel / frontend** MCP while shipping UI, the **Meta / Instagram API** while analyzing growth, **Supabase** for data and security. Loading them all into every session was wasteful (token bloat) and noisy. So each role boots with **only** the MCP servers it actually needs, and hands work to the next role through a written log instead of a shared brain.
+>
+> **The five roles below are an example.** Keep them, reshape them, add a sixth, or wire in completely different MCP servers — the machinery (dynamic MCP scoping + the BUS pattern + the safety backstop) is what's reusable. See [Customization](#customization).
 
 ```
  ═══════════════════════════════════════════════════════════
@@ -121,14 +130,14 @@ Roles coordinate through **asynchronous broadcasts**, not shared mutable state.
 - **Broadcast format:**
 
   ```
-  [YYYY-MM-DD | ROLE] {what changed}. RICHIEDE: {role} → {action}
+  [YYYY-MM-DD | ROLE] {what changed}. NEEDS: {role} → {action}
   ```
 
   Real example:
 
   ```
   [2026-06-25 | UIUX] Built ProductCard + ProductGrid against mock-data.ts.
-  Data shape is { id, title, price, imageUrl }. RICHIEDE: SWE → implement
+  Data shape is { id, title, price, imageUrl }. NEEDS: SWE → implement
   data.ts with identical signature backed by Supabase.
   ```
 
@@ -217,7 +226,7 @@ bash install.sh /path/to/your-existing-project
 curl -fsSL https://raw.githubusercontent.com/GiuseppeFarruggia/claude-multi-roles/main/install.sh | bash -s -- /path/to/your-existing-project
 ```
 
-Then fill `.claude/.env.mcp`, compile the **IDENTITÀ DEL PROGETTO** section of `CLAUDE.md`, and run `./multiroles`.
+Then fill `.claude/.env.mcp`, complete the **PROJECT IDENTITY** section of `CLAUDE.md`, and run `./multiroles`.
 
 ---
 
@@ -246,7 +255,7 @@ A UI/UX session that hands off cleanly to SWE.
 
   ```
   [2026-06-25 | UIUX] Built ProductCard + ProductGrid on mock-data.ts.
-  Shape: { id, title, price, imageUrl }. RICHIEDE: SWE → data.ts with
+  Shape: { id, title, price, imageUrl }. NEEDS: SWE → data.ts with
   identical signature, Supabase-backed.
   ```
 
@@ -277,7 +286,7 @@ The deterministic backstop lives in `.claude/hooks/safety-check.sh`, wired as a 
 | `git push --force` / `-f` | rewrites remote history |
 | `git push … main` / `master` | treated as a production deploy → needs a human |
 
-**How it works with `--dangerously-skip-permissions`.** The launcher runs Claude with permissions skipped for speed, but `PreToolUse` hooks run *regardless* of permission mode. So even fully autonomous, the model physically cannot execute a blocked command — it gets `🛑 safety-check: … — bloccato` and must ask a human. Speed without the cliff edge.
+**How it works with `--dangerously-skip-permissions`.** The launcher runs Claude with permissions skipped for speed, but `PreToolUse` hooks run *regardless* of permission mode. So even fully autonomous, the model physically cannot execute a blocked command — it gets `🛑 safety-check: … — blocked. Manual confirmation required.` and must ask a human. Speed without the cliff edge.
 
 **How to customize the blocked patterns.** Edit `safety-check.sh` — each rule is a `grep -Eqi` line followed by `block "<reason>"`. Add a line to block more (e.g. `kubectl delete`), or loosen one if your workflow needs it. The hook is plain bash with no dependencies.
 
@@ -285,9 +294,15 @@ The deterministic backstop lives in `.claude/hooks/safety-check.sh`, wired as a 
 
 ## Customization
 
-**Add a 6th role.** Create `.claude/roles/6-<name>/ROLE.md` and `MEMORY.md`, add `.claude/mcp-configs/6-<name>.json`, then append the role to both the `ROLES` and `MCP_CONFIGS` arrays in `multiroles`. Add it to the `REGOLA ZERO` list in `CLAUDE.md` too.
+**Add a 6th role.** Create `.claude/roles/6-<name>/ROLE.md` and `MEMORY.md`, add `.claude/mcp-configs/6-<name>.json`, then append the role to both the `ROLES` and `MCP_CONFIGS` arrays in `multiroles`. Add it to the `RULE ZERO` list in `CLAUDE.md` too.
 
-**Add a custom MCP.** Edit the relevant `.claude/mcp-configs/<role>.json`, referencing secrets as `${VAR}`, and add those vars to `.claude/.env.mcp.example` / `.claude/.env.mcp`. `envsubst` fills them at launch.
+**Add a custom MCP.** Edit the relevant `.claude/mcp-configs/<role>.json`, referencing secrets as `${VAR}`, and add those vars to `.claude/.env.mcp.example` / `.claude/.env.mcp`. `envsubst` fills them at launch. For instance, the UI/UX role ships with no MCP, but you can give it a **Vercel** connector for deploy previews — drop the server into `2-uiux.json` and it loads only for that role:
+
+```jsonc
+// .claude/mcp-configs/2-uiux.json
+{ "mcpServers": { "vercel": { "command": "npx", "args": ["-y", "<vercel-mcp-package>"],
+  "env": { "VERCEL_TOKEN": "${VERCEL_TOKEN}" } } } }
+```
 
 **Change the quality gate.** The rubric lives in `CLAUDE.md` under **QUALITY GATE** (five criteria, weight 2 each, threshold ≥ 7). Adjust criteria, weights, or threshold there; the `session-end` hook reads it.
 
